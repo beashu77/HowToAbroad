@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import CourseData from "../asset/data/courses.json";
 import UniversityLogo from "../asset/images/University-logo.webp";
+import { BsArrowClockwise } from "react-icons/bs";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const totalbtn = Math.ceil(79 / perPage);
+
   const [Url, setUrl] = useState(
     `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
   );
@@ -22,6 +24,19 @@ const Home = () => {
       });
   }, [page, perPage, Url]);
 
+  const fetchData = () => {
+    fetch(Url)
+      .then((res) => res.json())
+      .then((res) => {
+        setData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  fetchData();
+
   const handleClick = (curr) => {
     console.log(curr);
     setPage(curr);
@@ -36,10 +51,10 @@ const Home = () => {
       order = "desc";
       sort = "TuitionFee";
     }
-    console.log(sort , order)
-    setUrl(
+    console.log(sort, order);
+    setUrl((prevUrl) =>(
       `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
-    );
+    ));
 
     // // fetch(
     // //   `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
@@ -51,6 +66,43 @@ const Home = () => {
     // //     console.log(err);
     // //   });
   };
+
+  const handleReset = () => {
+    setPage(1);
+    setPerPage(10);
+    setUrl((prevUrl) =>(
+      `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
+    ));
+  };
+
+  const handleUniversityName = (e) => {
+    e.preventDefault();
+    const inputValue = e.target.value;
+    setUrl((prevUrl) => (
+      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&UniversityName_like=${inputValue}`
+    ));
+  };
+  const handleCourseName = (e) => {
+    e.preventDefault();
+    const inputValue = e.target.value;
+    setUrl((prevUrl) => (
+      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseName_like=${inputValue}`
+    ));
+  };
+  const handleGermanyRanking = (e) => {
+    e.preventDefault();
+    const inputValue = e.target.value;
+    setUrl((prevUrl) => (
+      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&GermanyRanking_like=${inputValue}`
+    ));
+  };
+  const handleCourseType = (e) => {
+    const inputValue = e.target.value;
+    setUrl((prevUrl) => (
+      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseType_like=${inputValue}`
+    ));
+  };
+  
   return (
     <div className="w-[85%] m-auto">
       <p className="text-3xl text-center font-semibold p-5 mb-10">
@@ -63,7 +115,8 @@ const Home = () => {
         {Array(totalbtn)
           .fill(0)
           .map((elem, i) => (
-            <button key={i+100}
+            <button
+              key={i + 100}
               onClick={() => handleClick(i + 1)}
               className=" lg:py-4 lg:px-6 lg:border hover:bg-green1 lg:hover:text-white text-lg"
             >
@@ -72,8 +125,11 @@ const Home = () => {
           ))}
       </div>
 
-      <div>
-        <select onChange={(e) => handleSort(e)}>
+      <div className="flex mr-0">
+        <select
+          onChange={(e) => handleSort(e)}
+          className="p-5 bg-grey text-white ml-auto"
+        >
           <option value="">---Sort---</option>
           <option value="WorldRanking">World Ranking Ascending</option>
           <option value="GermanyRanking">German Ranking Ascending</option>
@@ -82,7 +138,91 @@ const Home = () => {
         </select>
       </div>
       <div className="flex lg:flex-row flex-col">
-        <div className="lg:w-[30%] border border-black ">Filters </div>
+        <div className="lg:w-[30%] border border-black ">
+          <button
+            onClick={() => handleReset()}
+            className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto rounded-lg"
+          >
+            Reset Filter <BsArrowClockwise className="inline" />
+          </button>
+
+          <input
+            type="text"
+            placeholder="University Name"
+            className="mb-5 p-5 lg:w-[90%] border block  flex m-auto border-grey rounded-lg"
+            onChange={(e) => handleUniversityName(e)}
+          />
+          <input
+            type="text"
+            placeholder="Course Name"
+            className="mb-5 p-5 lg:w-[90%] border block  flex m-auto border-grey rounded-lg"
+            onChange={(e)=>handleCourseName(e)}
+          />
+          <input
+            type="text"
+            placeholder="Germany Ranking"
+            className="mb-5 p-5 lg:w-[90%] border block  flex m-auto border-grey rounded-lg"
+            onChange={(e)=>handleGermanyRanking(e)}
+          />
+
+          <p>Course Type</p>
+
+          <select
+            onChange={(e) => handleCourseType(e)}
+            className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
+          >
+            <option value="">---Course Type---</option>
+            <option value="Bachelor">Bachelor</option>
+            <option value="Masters">Masters</option>
+          </select>
+          <p>Teaching language</p>
+
+          <select
+            name=""
+            id=""
+            className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
+          >
+            <option value="">---Teaching language---</option>
+            <option value="ITALIAN">ITALIAN</option>
+            <option value="ENGLISH">ENGLISH</option>
+          </select>
+          <p>Beginning Semester</p>
+
+          <select
+            name=""
+            id=""
+            className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
+          >
+            <option value="">---Beginning Semester---</option>
+            <option value="SUMMER">SUMMER</option>
+            <option value="WINTER">WINTER</option>
+          </select>
+          <p>Duration </p>
+
+          <select
+            name=""
+            id=""
+            className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
+          >
+            <option value="">---Duration---</option>
+            <option value="13 Semesters">13 Semesters</option>
+            <option value="12 Semesters">12 Semesters</option>
+          </select>
+
+          <p>Tuition Fees </p>
+
+          <input
+            type="number"
+            placeholder="min"
+            className="mb-5 p-5  border   flex m-auto border-grey rounded-lg"
+          />
+          <input
+            type="number"
+            placeholder="max"
+            className="mb-5 p-5  border   flex m-auto border-grey rounded-lg"
+          />
+        </div>
+
         <div className="flex flex-col gap-5 lg:w-[70%] md:w-full">
           {data.map((elem) => {
             return (

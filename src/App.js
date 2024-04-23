@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Layout from "./pages/Layout";
 import { useLocation } from "react-router-dom";
@@ -31,7 +30,6 @@ function App() {
         <>
           {showNavbarAndFooter && <Navbar />}
           <Layout />
-          {showNavbarAndFooter && <Footer />}
         </>
       )}
     </div>
