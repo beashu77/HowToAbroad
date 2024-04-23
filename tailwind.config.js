@@ -18,7 +18,11 @@ module.exports = {
       // #138fc9 //light-blue
 
       dark_blue:'#1a3059',
+      blue1:"#007bff",
+      blue2:"#17a2c3",
+      green1:'#28a745',
       grey:'#2c2e32',
+      faint_grey:'#e5e8e8',
       light_grey:'#e5e5e5',
       dark_grey:'#91a2b4',
       yellow:'#a0a127',

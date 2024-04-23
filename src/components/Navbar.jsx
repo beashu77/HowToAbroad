@@ -15,8 +15,7 @@ const Navbar = () => {
   };
 
   const handleMenuItemClick = () => {
-    setIsOpen(false); // Close the menu when a menu item is clicked
-    // Perform additional actions if needed
+    setIsOpen(false); 
   };
 
   return (
