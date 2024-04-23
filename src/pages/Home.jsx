@@ -184,7 +184,7 @@ const Home = () => {
         </select>
       </div>
       <div className="flex lg:flex-row flex-col">
-        <div className="lg:w-[30%] border border-black ">
+        <div className="lg:w-[30%] ">
           <button
             onClick={() => handleReset()}
             className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto rounded-lg"
