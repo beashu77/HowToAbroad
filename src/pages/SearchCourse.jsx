@@ -2,7 +2,7 @@ import React from 'react'
 
 const SearchCourse = () => {
   return (
-    <div>SearchCourse</div>
+    <div className='w-[85%] m-auto border'>SearchCourse</div>
   )
 }
 

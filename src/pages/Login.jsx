@@ -2,7 +2,7 @@ import React from 'react'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <div className='w-[85%] m-auto border'>Login</div>
   )
 }
 

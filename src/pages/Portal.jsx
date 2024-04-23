@@ -2,7 +2,7 @@ import React from 'react'
 
 const Portal = () => {
   return (
-    <div>Portal</div>
+    <div className='w-[85%] m-auto border'>Portal</div>
   )
 }
 
