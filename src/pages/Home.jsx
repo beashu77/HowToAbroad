@@ -7,6 +7,8 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [min,setMin] = useState(0);
+  const [max,setMax] = useState(10000)
   const totalbtn = Math.ceil(79 / perPage);
 
   const [Url, setUrl] = useState(
@@ -130,8 +132,25 @@ const Home = () => {
     );
   };
 
+
+  const handleTuitionFees = (e, type) => {
+    e.preventDefault();
+    const value = parseInt(e.target.value);
+    if (type === "min") {
+      setMin(value);
+    } else if (type === "max") {
+      setMax(value);
+    }
+
+    setUrl(
+      //salary_gte=99999 &salary_lte=50000000
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&TuitionFee_gte=${min}&TuitionFee_lte=${max}`
+    );
+  };
+
   return (
-    <div className="w-[85%] m-auto">
+    <div className="w-[85%] m-auto lg:mt-[-40%] xs:mt-[-160%] md:mt-[-110%]">
       <p className="text-3xl text-center font-semibold p-5 mb-10">
         Find Study Programs in Germany
       </p>
@@ -236,18 +255,22 @@ const Home = () => {
           <p>Tuition Fees </p>
           <label htmlFor="" className="mb-5 flex m-auto">Min</label>
           <input
-            type="number"
-            placeholder="min"
-            defaultValue={0}
-            className="mb-5 p-5 border flex m-auto border-grey rounded-lg"
-          />
-          <label htmlFor="" className="mb-5 flex m-auto">Max</label>
-          <input
-            type="number"
-            placeholder="max"
-            defaultValue={100000}
-            className="mb-5 p-5  border   flex m-auto border-grey rounded-lg"
-          />
+        type="number"
+        placeholder="min"
+        value={min}
+        className="mb-5 p-5 border flex m-auto border-grey rounded-lg"
+        onChange={(e) => handleTuitionFees(e, "min")}
+      />
+      <label htmlFor="" className="mb-5 flex m-auto">
+        Max
+      </label>
+      <input
+        type="number"
+        placeholder="max"
+        value={max}
+        className="mb-5 p-5 border flex m-auto border-grey rounded-lg"
+        onChange={(e) => handleTuitionFees(e, "max")}
+      />
         </div>
 
         <div className="flex flex-col gap-5 lg:w-[70%] md:w-full">
