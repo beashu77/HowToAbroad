@@ -52,9 +52,10 @@ const Home = () => {
       sort = "TuitionFee";
     }
     console.log(sort, order);
-    setUrl((prevUrl) =>(
-      `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
+    );
 
     // // fetch(
     // //   `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
@@ -70,39 +71,65 @@ const Home = () => {
   const handleReset = () => {
     setPage(1);
     setPerPage(10);
-    setUrl((prevUrl) =>(
-      `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
+    );
   };
 
   const handleUniversityName = (e) => {
     e.preventDefault();
     const inputValue = e.target.value;
-    setUrl((prevUrl) => (
-      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&UniversityName_like=${inputValue}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&UniversityName_like=${inputValue}`
+    );
   };
   const handleCourseName = (e) => {
     e.preventDefault();
     const inputValue = e.target.value;
-    setUrl((prevUrl) => (
-      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseName_like=${inputValue}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseName_like=${inputValue}`
+    );
   };
   const handleGermanyRanking = (e) => {
     e.preventDefault();
     const inputValue = e.target.value;
-    setUrl((prevUrl) => (
-      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&GermanyRanking_like=${inputValue}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&GermanyRanking_like=${inputValue}`
+    );
   };
   const handleCourseType = (e) => {
     const inputValue = e.target.value;
-    setUrl((prevUrl) => (
-      `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseType_like=${inputValue}`
-    ));
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&CourseType_like=${inputValue}`
+    );
   };
-  
+  const handleTeachingLanguage = (e) => {
+    const inputValue = e.target.value;
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&TeachingLanguage_like=${inputValue}`
+    );
+  };
+  const handleBeginningSemester = (e) => {
+    const inputValue = e.target.value;
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&BeginningSemester_like=${inputValue}`
+    );
+  };
+  const handleDuration = (e) => {
+    const inputValue = e.target.value;
+    setUrl(
+      (prevUrl) =>
+        `https://my-mock-sever-api.onrender.com/course?page=${page}&limit=${perPage}&Duration_like=${inputValue}`
+    );
+  };
+
   return (
     <div className="w-[85%] m-auto">
       <p className="text-3xl text-center font-semibold p-5 mb-10">
@@ -156,13 +183,13 @@ const Home = () => {
             type="text"
             placeholder="Course Name"
             className="mb-5 p-5 lg:w-[90%] border block  flex m-auto border-grey rounded-lg"
-            onChange={(e)=>handleCourseName(e)}
+            onChange={(e) => handleCourseName(e)}
           />
           <input
             type="text"
             placeholder="Germany Ranking"
             className="mb-5 p-5 lg:w-[90%] border block  flex m-auto border-grey rounded-lg"
-            onChange={(e)=>handleGermanyRanking(e)}
+            onChange={(e) => handleGermanyRanking(e)}
           />
 
           <p>Course Type</p>
@@ -178,8 +205,7 @@ const Home = () => {
           <p>Teaching language</p>
 
           <select
-            name=""
-            id=""
+            onChange={(e) => handleTeachingLanguage(e)}
             className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
           >
             <option value="">---Teaching language---</option>
@@ -189,8 +215,7 @@ const Home = () => {
           <p>Beginning Semester</p>
 
           <select
-            name=""
-            id=""
+            onChange={(e) => handleBeginningSemester(e)}
             className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
           >
             <option value="">---Beginning Semester---</option>
@@ -200,8 +225,7 @@ const Home = () => {
           <p>Duration </p>
 
           <select
-            name=""
-            id=""
+            onChange={(e) => handleDuration(e)}
             className="p-5 bg-grey text-white block lg:w-[90%] mb-5 flex m-auto mt-5 rounded-lg"
           >
             <option value="">---Duration---</option>
@@ -210,15 +234,18 @@ const Home = () => {
           </select>
 
           <p>Tuition Fees </p>
-
+          <label htmlFor="" className="mb-5 flex m-auto">Min</label>
           <input
             type="number"
             placeholder="min"
-            className="mb-5 p-5  border   flex m-auto border-grey rounded-lg"
+            defaultValue={0}
+            className="mb-5 p-5 border flex m-auto border-grey rounded-lg"
           />
+          <label htmlFor="" className="mb-5 flex m-auto">Max</label>
           <input
             type="number"
             placeholder="max"
+            defaultValue={100000}
             className="mb-5 p-5  border   flex m-auto border-grey rounded-lg"
           />
         </div>
