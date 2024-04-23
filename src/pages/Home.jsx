@@ -17,16 +17,27 @@ const Home = () => {
       .then((res) => {
         console.log(res);
         setData(res);
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [page, perPage]);
 
+  const handleClick = (curr) => {
+    console.log(curr);
+    setPage(curr);
+  };
 
-  const handleClick =(curr)=>{
-    console.log(curr)
-    setPage(curr)
+  const handleSort=(e)=>{
+    console.log(e.target.value)
+    let order ="asc"
+
+    if(e.target.value === "TuitionFeeDecending") order ="desc"
+     
+    fetch(`https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${e.target.value}&_order=${order}`).then((res)=>res.json()).then((res)=>console.log("res",res)).catch((err)=>{
+      console.log(err)
+    })
   }
   return (
     <div className="w-[85%] m-auto">
@@ -40,20 +51,34 @@ const Home = () => {
         {Array(totalbtn)
           .fill(0)
           .map((elem, i) => (
-            <button onClick={()=>handleClick(i+1)} className="py-4 px-6 border hover:bg-green1 hover:text-white text-lg">{i + 1}</button>
+            <button
+              onClick={() => handleClick(i + 1)}
+              className=" lg:py-4 lg:px-6 lg:border hover:bg-green1 lg:hover:text-white text-lg"
+            >
+              {i + 1}
+            </button>
           ))}
       </div>
 
-      <div className="flex flex-row">
-        <div className="w-[30%] border border-black ">Filters </div>
-        <div className="flex flex-col gap-5 w-[70%]">
+      <div>
+        <select name="" id="" onChange={(e)=>handleSort(e)}>
+          <option value="">---Sort---</option>
+          <option value="WorldRankingAscending">World Ranking Ascending</option>
+          <option value="GermanRankingAscending">German Ranking Ascending</option>
+          <option value="TuitionFeeAscending">Tuition Fee Ascending</option>
+          <option value="TuitionFeeDecending">Tuition Fee Decending</option>
+        </select>
+      </div>
+      <div className="flex lg:flex-row flex-col">
+        <div className="lg:w-[30%] border border-black ">Filters </div>
+        <div className="flex flex-col gap-5 lg:w-[70%] md:w-full">
           {data.map((elem) => {
             return (
               <div
                 key={elem.id}
-                className="flex flex-row gap-5 p-10  drop-shadow-2xl bg-faint_grey ml-10 leading-loose"
+                className="flex lg:flex-row flex-col gap-5 lg:p-10 md:p-2 drop-shadow-2xl bg-faint_grey ml-10 leading-loose"
               >
-                <div className="w-[20%]">
+                <div className="lg:w-[20%]">
                   <img
                     className="h-20 w-20 mb-14"
                     src={UniversityLogo}
@@ -67,7 +92,7 @@ const Home = () => {
                   </p>
                   <p>State : {elem.State}</p>
                 </div>
-                <div className="w-[50%] ml-5 mr-5">
+                <div className="lg:w-[50%] lg:ml-5 lg:mr-5">
                   <p className="text-2xl mb-10 border-b-4 pb-1">
                     {elem.UniversityName}
                   </p>
@@ -83,7 +108,7 @@ const Home = () => {
                   <p>German Grade Requirement : not</p>
                 </div>
 
-                <div className="w-[20%]">
+                <div className="lg:w-[20%]">
                   <p className="text-blue1 mb-10">
                     Tuition Fee : {elem.TuitionFee}
                   </p>
