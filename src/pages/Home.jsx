@@ -7,38 +7,50 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const totalbtn = Math.ceil(79 / perPage);
+  const [Url, setUrl] = useState(
+    `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
+  );
 
-  console.log(Math.ceil(79 / perPage));
   useEffect(() => {
-    fetch(
-      `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}`
-    )
+    fetch(Url)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setData(res);
-        console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [page, perPage]);
+  }, [page, perPage, Url]);
 
   const handleClick = (curr) => {
     console.log(curr);
     setPage(curr);
   };
 
-  const handleSort=(e)=>{
-    console.log(e.target.value)
-    let order ="asc"
+  const handleSort = (e) => {
+    const selectedValue = e.target.value;
+    let sort = selectedValue;
+    let order = "asc";
 
-    if(e.target.value === "TuitionFeeDecending") order ="desc"
-     
-    fetch(`https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${e.target.value}&_order=${order}`).then((res)=>res.json()).then((res)=>console.log("res",res)).catch((err)=>{
-      console.log(err)
-    })
-  }
+    if (e.target.value === "TuitionFeeDecending") {
+      order = "desc";
+      sort = "TuitionFee";
+    }
+    console.log(sort , order)
+    setUrl(
+      `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
+    );
+
+    // // fetch(
+    // //   `https://my-mock-sever-api.onrender.com/course?_page=${page}&_limit=${perPage}&_sort=${sort}&_order=${order}`
+
+    // // )
+    // //   .then((res) => res.json())
+    // //   .then((res) => setData(res))
+    // //   .catch((err) => {
+    // //     console.log(err);
+    // //   });
+  };
   return (
     <div className="w-[85%] m-auto">
       <p className="text-3xl text-center font-semibold p-5 mb-10">
@@ -51,7 +63,7 @@ const Home = () => {
         {Array(totalbtn)
           .fill(0)
           .map((elem, i) => (
-            <button
+            <button key={i+100}
               onClick={() => handleClick(i + 1)}
               className=" lg:py-4 lg:px-6 lg:border hover:bg-green1 lg:hover:text-white text-lg"
             >
@@ -61,11 +73,11 @@ const Home = () => {
       </div>
 
       <div>
-        <select name="" id="" onChange={(e)=>handleSort(e)}>
+        <select onChange={(e) => handleSort(e)}>
           <option value="">---Sort---</option>
-          <option value="WorldRankingAscending">World Ranking Ascending</option>
-          <option value="GermanRankingAscending">German Ranking Ascending</option>
-          <option value="TuitionFeeAscending">Tuition Fee Ascending</option>
+          <option value="WorldRanking">World Ranking Ascending</option>
+          <option value="GermanyRanking">German Ranking Ascending</option>
+          <option value="TuitionFee">Tuition Fee Ascending</option>
           <option value="TuitionFeeDecending">Tuition Fee Decending</option>
         </select>
       </div>
